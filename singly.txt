@@ -1,0 +1,189 @@
+import java.util.*;
+class Singly_linked_list{
+    Node head,tail;
+    
+    Singly_linked_list(){
+        head=null;
+        tail=null;
+    }
+    class Node{
+        int data;
+        Node next;
+        Node(int val){
+            data=val;
+            next=null;
+        }
+        
+    }
+ 
+    
+    public void create(int d){
+        Node newnode=new Node(d);
+        if(head==null&&tail==null){
+            head=tail=newnode;
+        }
+        else{
+            tail.next=newnode;
+            tail=newnode;
+        }
+    }
+    
+    public void insert_at_beg(int d){
+        Node newnode=new Node(d);
+        if(head==null&&tail==null){
+            head=newnode;
+            tail=newnode;
+        }
+        else{
+            newnode.next=head;
+            head=newnode;
+        }
+    }
+    
+    public void insert_at_end(int d)
+    {
+     Node newnode=new Node(d);
+     if(head==null&&tail==null){
+            head=newnode;
+            tail=newnode;
+        }
+        else{
+            tail.next=newnode;
+            tail=newnode;
+        }
+    }   
+    
+    public void insert_at_pos(int pos,int d){
+        if(head==null&&tail==null){
+            create(d);
+        }
+        else{
+       Node newnode=new Node(d);
+        Node temp=head;
+        for(int i=0;i<pos-1;i++){
+            temp=temp.next;
+            if(temp==null){
+                System.out.println("Invalid position");
+                System.exit(0);
+            }
+        }
+     newnode.next=temp.next;
+     temp.next=newnode;
+     }
+     }
+    
+    public void del_at_beg()
+   {
+     if(head==null){
+         System.out.println("Node is empty");
+     }
+     else{
+        if(head==tail)
+        head=null;
+        else
+        head=head.next;
+      }
+   }    
+    
+    public void del_at_end()
+   {
+    if(head==null||tail==null){
+        System.out.println("Node is empty");
+    }
+    else{
+    Node temp=head;
+    if(head==tail){
+        tail=null;
+    }
+    else{
+    while(temp.next!=tail){
+        temp=temp.next;
+        
+    }
+    temp.next=null;
+    tail=temp;
+    }
+    }
+   }    
+   
+   public void del_at_mid(int pos){
+       Node temp=head;
+       if(pos==0){
+           del_at_beg();
+       }
+       else{
+       for(int i=0;i<pos-1;i++){
+           temp=temp.next;
+           if(temp==null){
+               System.out.println("Invalid Position");
+               System.exit(0);
+           }
+       }
+       Node temp1=temp;
+       temp=temp.next;
+       temp1.next=temp.next;
+       }
+   }
+    
+    public void print(){
+        Node temp=head;
+        if(head==null||tail==null){
+            System.out.println("Node is Empty");
+        }
+        else{
+        while(temp!=null){
+            System.out.print(temp.data+" ");
+            temp=temp.next;
+        }
+        }
+       
+    }
+    public void clockwise_rotation(int a){
+        
+        Node temp;
+        for(int i=1;i<=a;i++){
+            
+            temp=head;
+            head=head.next;
+            temp.next=null;
+            tail.next=temp;
+            tail=temp;
+        }
+    }
+    
+    public void anticlockwise_rotation(int a){
+        Node temp=head;
+        Node temp1;
+        for(int i=1;i<=a;i++){
+        while(temp.next!=tail){
+            temp=temp.next;
+        }
+        temp1=temp;
+        temp=temp.next;
+        temp1.next=null;
+        tail=temp1;
+        temp.next=head;
+        head=temp;
+        }
+    }
+}
+public class Main{
+    public static void main(String args[]){
+         Singly_linked_list list=new  Singly_linked_list();
+         list.create(80);
+         list.create(90);
+         list.create(100);
+         list.create(110);
+         list.create(120);
+         list.insert_at_beg(70);
+         list.print();
+         System.out.println("");
+         
+         list.anticlockwise_rotation(1);
+         
+         
+         
+         list.print();
+         
+    }
+}

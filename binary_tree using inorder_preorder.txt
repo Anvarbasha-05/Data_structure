@@ -1,0 +1,124 @@
+
+class Node {
+	int data;
+	Node left, right;
+
+	Node(int item)
+	{
+		data = item;
+		left = right = null;
+	}
+}
+
+class BinaryTree {
+	Node root;
+	
+	static int lh=0,rh=0;
+	
+	static int preIndex = 0;
+
+	
+	Node buildTree(int in[], int pre[], int inStrt, int inEnd)
+	{
+		if (inStrt > inEnd)
+			return null;
+
+		
+		Node tNode = new Node(pre[preIndex++]);
+
+
+		if (inStrt == inEnd)
+			return tNode;
+
+		
+		int inIndex = search(in, inStrt, inEnd, tNode.data);
+
+		
+		tNode.left = buildTree(in, pre, inStrt, inIndex - 1);
+		tNode.right = buildTree(in, pre, inIndex + 1, inEnd);
+
+		return tNode;
+	}
+
+	
+	int search(int arr[], int strt, int end, int value)
+	{
+		int i;
+		for (i = strt; i <= end; i++) {
+			if (arr[i] == value)
+				return i;
+		}
+		return i;
+	}
+
+   public int findHeight(Node temp){
+        if(temp==null)
+        return 0;
+        else{
+             if(temp.left!=null){
+            lh+=1;
+          findHeight(temp.left);
+            
+            }
+            
+            if(temp.right!=null){
+            rh+=1;
+         findHeight(temp.right);
+        
+            }
+            
+            int max=(lh>rh)?lh:rh;
+            
+            return max+1;
+        }
+    }
+	void printInorder(Node node)
+	{
+		if (node == null)
+			return;
+
+	
+		printInorder(node.left);
+
+	
+		System.out.print(node.data + " ");
+
+		
+		printInorder(node.right);
+	}
+
+    public void printTree(Node root,int level){
+        
+        if(level==1 && root==null)
+        {
+           System.out.print("null ");
+           return;
+        }
+        if(level==1)
+        {
+            System.out.print(root.data+" ");
+        }
+        else{
+           printTree(root.left,level-1);
+           printTree(root.right,level-1);
+         }
+        
+    }
+
+	public static void main(String args[])
+	{
+		BinaryTree tree = new BinaryTree();
+		int in[] = new int[] { 9,3,15,20,7 };
+		int pre[] = new int[] { 3,9,20,15,7 };
+		int len = in.length;
+		Node root = tree.buildTree(in, pre, 0, len - 1);
+
+		int h=tree.findHeight(root);
+	
+		for(int i=1;i<=h;i++){
+		    tree.printTree(root,i);
+		}
+	}
+}
+
+
