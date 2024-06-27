@@ -1,0 +1,109 @@
+class BinarySearchTree{
+    int lh=0,rh=0;
+    Node root;
+    class Node{
+        int key;
+        Node left,right;
+        
+        public Node(int val){
+            key=val;
+            left=right=null;
+        }
+        
+    }
+    public BinarySearchTree(int val){
+        root=new Node(val);
+    }
+    
+    public BinarySearchTree(){
+        root = null;
+    }
+    
+    public void insert(int val){
+        insert(root,val);
+    }
+    public Node insert(Node root,int val){
+        if(root==null){
+            return new Node(val);
+        }
+        if(val<root.key)
+        root.left=insert(root.left,val);
+        else
+        root.right=insert(root.right,val);
+        
+        return root;
+    }
+    
+    public void inorder(Node root){
+        if(root!=null){
+        inorder(root.left);
+        System.out.print(root.key+" ");
+        inorder(root.right);
+        }
+    }
+    
+     public int findHeight(Node temp){
+        if(root==null)
+        return 0;
+        else{
+            
+            if(temp.left!=null){
+            findHeight(temp.left);
+            lh++;
+            }
+            if(temp.right!=null){
+            findHeight(temp.right);
+            rh++;
+            }
+            int max=(lh>rh)?lh:rh;
+            return max+1;
+        }
+    }
+    
+    public Node delete(Node root,int val)
+    {
+        if(root==null)
+        return root;
+        if(root.key>val)
+        root.left=delete(root.left,val);
+        else if(root.key<val)
+        root.right=delete(root.right,val);
+        else{
+           if(root.left==null)
+           return root.right;
+           else if(root.right==null)
+           return root.left;
+           root.key=min(root.right);
+           root.right=delete(root.right,root.key);
+        }
+        return root;
+    } 
+    
+    public int min(Node root)
+    {
+        int minval=root.key;
+        while(root.left!=null){
+            minval=root.left.key;
+            root=root.left;
+        }
+        return minval;
+    }
+} 
+public class Main{
+    public static void main(String args[]){
+        BinarySearchTree bst=new BinarySearchTree(50);
+        bst.insert(bst.root,70);
+        bst.insert(bst.root,100);
+        bst.insert(bst.root,30);
+        bst.insert(bst.root,20);
+        bst.insert(bst.root,10);
+        bst.insert(bst.root,40);
+        bst.inorder(bst.root);
+        System.out.println("");
+        System.out.println(bst.findHeight(bst.root));
+         System.out.println("");
+         bst.delete(bst.root,70);
+         bst.inorder(bst.root);
+         
+    }
+}
